@@ -52,7 +52,7 @@ export default function Rank() {
                 setCommits(filteredCommits)
             })
 
-            await axios.get(`http://103.127.134.13:3001/sonarAnalyses`)
+            await axios.get(`http://localhost:3001/sonarAnalyses`)
                 .then((response) => {
                     setCommitAnalyses(response.data)
                 })
@@ -61,6 +61,7 @@ export default function Rank() {
     }, [name, username])
 
     useEffect(() => {
+
         const commiters = commits.filter((obj, index) => {
             return index === commits.findIndex(o => obj.author.login === o.author.login)
         })
@@ -69,12 +70,11 @@ export default function Rank() {
         const d = commiters
 
         a.forEach((b) => {
-            b.data = commitAnalyses.find(o => b.sha === o.component.name)
+            b.data = commitAnalyses.find(o => b.sha === o.component.name) ? commitAnalyses.find(o => b.sha === o.component.name) : ""
         })
 
         d.forEach((e) => {
-            e.commits = a.filter(o => o.author.login === e.author.login && o.data !== undefined)
-            delete e.data
+            e.commits = a.filter(o => o.author.login === e.author.login && o.data !== "")
         })
 
         const commitersCheck = commiters.map((commiter) => {
@@ -164,13 +164,19 @@ export default function Rank() {
             }
             return 0;
         })
+
         setCommitersScore(commitersScore)
+
         setData(commitersScore.map((c) => {
             return { name: c.commit.author.name, value: c.measure.lines, duplicate_lines: parseFloat(c.measure.duplicated_lines_density.toFixed(2)), bad_code: parseFloat(c.measure.score_percent.toFixed(2)), security_hotspots: c.measure.security_hotspots, vulnerabilities: c.measure.vulnerabilities }
         }))
+
         setData2(d.map((c) => {
-            return { name: c.commit.author.name, value: c.measure.lines, data: c.commits.filter(o => o.data !== undefined) }
+            return { name: c.commit.author.name, value: c.measure.lines, data: c.commits }
         }))
+
+        console.log(data2)
+
     }, [commitAnalyses])
 
     const scrollToTop = () => {
@@ -446,7 +452,7 @@ export default function Rank() {
                                         </div>
                                         :
                                         <div className="card">
-                                            <div className="card-header">Tree Chart</div>
+                                            <div className="card-header">Circular Chart</div>
                                             <CircularPacking data={data2} width={500} height={500} />
                                         </div>
                         }

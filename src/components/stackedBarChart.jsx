@@ -25,7 +25,7 @@ const StackedBarChart = ({ data }) => {
                 backgroundColor: 'rgba(255, 255, 0, 0.7)', // Yellow with 70% transparency
             },
             {
-                label: 'Remaining Value',
+                label: 'Lines',
                 data: remainingValue,
                 backgroundColor: 'rgba(0, 0, 255, 0.5)', // Blue with 50% transparency
             },

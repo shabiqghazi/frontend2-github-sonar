@@ -70,12 +70,12 @@ export default function Statistic() {
         const fetchAnalyses = async () => {
             if (repoSha !== repoId) {
                 setRepoSha(repoId)
-                await axios.post('http://103.127.134.13:3001/githubCommit/repo', commits)
-                await axios.get('http://103.127.134.13:3001/sonarAnalyses/analyse/repo')
+                await axios.post('http://localhost:3001/githubCommit/repo', commits)
+                await axios.get('http://localhost:3001/sonarAnalyses/analyse/repo')
                 await new Promise(resolve => setTimeout(resolve, 30000))
             }
 
-            await axios.get(`http://103.127.134.13:3001/sonarAnalyses`)
+            await axios.get(`http://localhost:3001/sonarAnalyses`)
                 .then((response) => {
                     setCommitAnalyses(response.data)
                     setAnalyseLoading("b")
@@ -122,7 +122,7 @@ export default function Statistic() {
                 setCommit(response.data)
             })
 
-        await axios.get(`http://103.127.134.13:3001/sonarAnalyses/files/${sha}`)
+        await axios.get(`http://localhost:3001/sonarAnalyses/files/${sha}`)
             .then((response) => {
                 if (response.data !== 'commitanalysesnotfound') {
                     commitFiles.forEach((fileSha) => {

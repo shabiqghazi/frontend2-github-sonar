@@ -83,7 +83,7 @@ const RadialTreeChart = ({ data }) => {
 
         node.filter(d => !d.children)
             .append("title")
-            .text(d => `Lines: ${d.data.data?.find(o => o.metric === "lines").value}\nDuplicate Lines: ${d.data.data?.find(o => o.metric === "duplicated_lines_density").value}%\nBad Code: ${(d.data.badCodeValue * 100).toFixed(2)}%`)
+            .text(d => `Lines: ${d.data.data?.find(o => o.metric === "lines").value}\nDuplicate Lines: ${d.data.data?.find(o => o.metric === "duplicated_lines_density").value}%\nBad Code: ${(d.data.badCodeValue * 100).toFixed(2)}%\nSecurity Hotspots: ${d.data.data?.find(o => o.metric === "security_hotspots").value}\nVulnerabilities: ${d.data.data?.find(o => o.metric === "vulnerabilities").value}`)
 
         node.append("text")
             .attr("dy", "0.31em")

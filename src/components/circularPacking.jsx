@@ -53,6 +53,9 @@ const CircularPacking = ({ data, width, height }) => {
                         parentData,
                         value: parseInt(d.data.component.measures.find(o => o.metric === "lines").value),
                         bad_code: badCodeValue,
+                        duplicated_lines_density: parseInt(d.data.component.measures.find(o => o.metric === "duplicated_lines_density").value),
+                        security_hotspots: parseInt(d.data.component.measures.find(o => o.metric === "security_hotspots").value),
+                        vulnerabilities: parseInt(d.data.component.measures.find(o => o.metric === "vulnerabilities").value),
                         r: childRadius,
                         x: x,
                         y: y,
@@ -101,7 +104,7 @@ const CircularPacking = ({ data, width, height }) => {
         // Add tooltips for parent circle
         svg.selectAll('.parent-circle')
             .append('title')
-            .text(d => `${d.data.name}\nLines: ${d.data.value}\nCommits: ${d.data.data.length > 0 ? d.data.data.length : `not detected by sonarqube`}`)
+            .text(d => `${d.data.name}\nCommits: ${d.data.data.length}\nLines: ${d.data.value}`)
 
         // Add labels for parent circle
         svg.selectAll('.parent-label')
@@ -141,7 +144,7 @@ const CircularPacking = ({ data, width, height }) => {
         // Add tooltips for nested circles
         svg.selectAll('.nested-circle')
             .append('title')
-            .text(d => `${d.name}\nLines: ${d.value}\nBad_code: ${(d.bad_code * 100).toFixed(3)}%`);
+            .text(d => `${d.name}\nLines: ${d.value}\nDuplicate Lines: ${d.duplicated_lines_density}%\nBad_code: ${(d.bad_code * 100).toFixed(2)}%\nSecurity Hotspots: ${d.security_hotspots}\nVulnerabilities: ${d.vulnerabilities}`);
 
     }, [data, width, height])
 
