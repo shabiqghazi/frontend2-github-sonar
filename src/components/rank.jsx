@@ -52,7 +52,7 @@ export default function Rank() {
                 setCommits(filteredCommits)
             })
 
-            await axios.get(`http://localhost:3001/sonarAnalyses`)
+            await axios.get(`http://103.127.134.13:3001/sonarAnalyses`)
                 .then((response) => {
                     setCommitAnalyses(response.data)
                 })
