@@ -34,7 +34,8 @@ export default function Statistic() {
     const [analyseLoading, setAnalyseLoading] = useState()
     const [commitAnalyses, setCommitAnalyses] = useState([])
     const [commitMeasures, setCommitMeasures] = useState()
-    const [fileAnalyses, setFileAnalyses] = useState()
+    const [fileAnalyses, setFileAnalyses] = useState(0)
+    const [time, setTime] = useState()
 
     useEffect(() => {
         const getData = async () => {
@@ -68,6 +69,7 @@ export default function Statistic() {
 
     useEffect(() => {
         const fetchAnalyses = async () => {
+            let start = performance.now()
             if (repoSha !== repoId) {
                 setRepoSha(repoId)
                 await axios.post('http://103.127.134.13:3001/githubCommit/repo', commits)
@@ -80,6 +82,9 @@ export default function Statistic() {
                     setCommitAnalyses(response.data)
                     setAnalyseLoading("b")
                 })
+
+            let end = performance.now()
+            setTime((end - start) / 1000)
         }
 
         if (analyseLoading === "a") {
@@ -296,6 +301,13 @@ export default function Statistic() {
                             </div>
                         </div>
                     </div>
+                    {analyseLoading === "b" ?
+                        <div className="d-flex px-3">
+                            <p>Execution Time : <b>{time.toFixed(1)} Seconds</b></p>
+                        </div>
+                        :
+                        ""
+                    }
                 </div>
 
                 {analyseLoading === "b" ?
