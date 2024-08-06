@@ -175,8 +175,6 @@ export default function Rank() {
             return { name: c.commit.author.name, value: c.measure.lines, data: c.commits }
         }))
 
-        console.log(data2)
-
     }, [commitAnalyses])
 
     const scrollToTop = () => {
